@@ -3,14 +3,14 @@
 void Serialprint(char s[])
 {
 	unsigned char buf[strlen(s)+1];
-	strcpy(buf," ");
+	strcpy(buf,"");
 	strcat(buf,s);
 	UARTSend(buf, sizeof(buf));
 }
 void Serialprintln(char s[])
 {
 	unsigned char buf[strlen(s)+4];
-	strcpy(buf," ");
+	strcpy(buf,"");
 	strcat(buf,s);
 	strcat(buf,"\r\n");
 	UARTSend(buf, sizeof(buf));
