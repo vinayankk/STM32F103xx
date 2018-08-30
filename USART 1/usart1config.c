@@ -73,6 +73,7 @@ void usart_init(void)
 		unsigned char init[]=" USART ENABLED\r\n";	    /* Enable USART1 and GPIOA clock */
 	    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA, ENABLE);
 
+
 	    /* NVIC Configuration */
 	    NVIC_Configuration();
 
@@ -102,6 +103,7 @@ void usart_init(void)
 void GPIO_Configuration(void)
 {
   GPIO_InitTypeDef GPIO_InitStructure;
+
 
   /* Configure USART1 Tx (PA.09) as alternate function push-pull */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
