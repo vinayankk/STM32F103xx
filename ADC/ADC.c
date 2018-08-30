@@ -1,3 +1,8 @@
+/*THIS PROGRAM READS ADC VALUES FROM STM 32.
+ * Use adc_init(); in main.c to initialise ADC. Make necessary changes
+ * Use adc_calib to calibrate
+ * Use adc_readval to read value from ADC for one time
+*/
 #include<stm32f10x_rcc.h>
 #include<stm32f10x_gpio.h>
 #include<stm32f10x_adc.h>
@@ -28,21 +33,22 @@ void adc_init(void)
 
 	ADC_Cmd (ADC1,ENABLE); //enabling ADC
 
+}
 
+
+int adc_calib()
+{
 	ADC_ResetCalibration(ADC1); //calibrating ADC
 	while(ADC_GetResetCalibrationStatus(ADC1));
 	ADC_StartCalibration(ADC1);
 	while(ADC_GetCalibrationStatus(ADC1));
-
-	//ADC_Cmd (ADC1,ENABLE);
-
-
 }
+
+
 int adc_readval(void)
 {
 	    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	    while(ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
 		int j = ADC_GetConversionValue(ADC1);
 		return(j);
-
 }
