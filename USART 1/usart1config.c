@@ -13,10 +13,7 @@
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_gpio.h"
 #include "misc.h"
-#define NUM 10
-
-int i,j;
-char name[NUM+1] = {'\0'};
+#include <ctype.h>
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -24,12 +21,17 @@ char name[NUM+1] = {'\0'};
 /* Private variables ---------------------------------------------------------*/
 ErrorStatus HSEStartUpStatus;
 
+#define NUM 10
+
+
+char name[NUM+1]={'\0'},i;
 /* Private function prototypes -----------------------------------------------*/
 void NVIC_Configuration(void);
 void GPIO_Configuration(void);
 void USART_Configuration(void);
-void USART1_IRQHandler(void);
 void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount);
+char rcvdata,rcvbuf;
+int count=0;
 
 /******************************************************************************/
 /*            STM32F10x Peripherals Interrupt Handlers                        */
@@ -40,23 +42,38 @@ void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount);
   * @param  None
   * @retval None
   */
-void USART1_IRQHandler(void)
-{
-    if ((USART1->SR & USART_FLAG_RXNE) != (u16)RESET)
-	{
-			i = USART_ReceiveData(USART1);
-			if(j == NUM)
-			{
-                name[j] = i;
-			    j = 0;
-			}
-			else
-			{
-                name[j++] = i;
-			}
-			name[j] = '\0';
-	}
-}
+//int j=0;
+
+
+//void USART1_IRQHandler(void)
+//{
+//
+//	char c;
+//	/* RXNE handler */
+//	    if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
+//	    {
+//	        /* If received 't', toggle LED and transmit 'T' */
+//	    	c=USART_ReceiveData(USART1);
+//	        if(c != '\r\n')
+//	        {
+//	            //
+////	            Serialprintln(c);
+//	            buf[j++]=c;
+//	        }
+//	        else
+//	        {
+//	        	j=0;
+//	        	a=1;
+//
+//	        	//Serialprintln(buf);
+//
+//	        }
+//
+//	    }
+//	    USART_SendData(USART1, c);
+// }
+
+
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -180,7 +197,7 @@ void NVIC_Configuration(void)
 * Output         : None
 * Return         : None
 *******************************************************************************/
-void UARTSend(const unsigned char *pucBuffer, unsigned long ulCount)
+void UARTSend(const unsigned char *pucBuffer,unsigned long ulCount)
 {
     //
     // Loop while there are more characters to send.

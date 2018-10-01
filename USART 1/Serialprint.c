@@ -15,6 +15,16 @@ void Serialprintln(char s[])
 	strcat(buf,"\r\n");
 	UARTSend(buf, sizeof(buf));
 }
+void Serialprintln1(char *s)
+{
+	unsigned char buf[strlen(s)+4];
+	strcpy(buf,"");
+	strcpy(buf,s);
+	strcat(buf,"\r\n");
+	UARTSend(buf, sizeof(buf));
+}
+
+
 void Serialprintint(int num)//use Serialprintln(""); before calling this
 {
 	if(num>10)
